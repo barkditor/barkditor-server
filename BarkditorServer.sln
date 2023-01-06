@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarkditorServer.BusinessLogic", "BarkditorServer.BusinessLogic\BarkditorServer.BusinessLogic.csproj", "{CF129974-963B-4838-AE5D-42A37F11315D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarkditorServer.Presentation", "BarkditorServer.Presentation\BarkditorServer.Presentation.csproj", "{31A35555-7DED-4DCE-B251-41B4C811CD70}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF129974-963B-4838-AE5D-42A37F11315D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF129974-963B-4838-AE5D-42A37F11315D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF129974-963B-4838-AE5D-42A37F11315D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF129974-963B-4838-AE5D-42A37F11315D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31A35555-7DED-4DCE-B251-41B4C811CD70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31A35555-7DED-4DCE-B251-41B4C811CD70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31A35555-7DED-4DCE-B251-41B4C811CD70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31A35555-7DED-4DCE-B251-41B4C811CD70}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

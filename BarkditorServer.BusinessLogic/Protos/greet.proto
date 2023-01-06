@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "BarkditorServer.BusinessLogic";
+
+package ProjectFiles;
+
+service ProjectFiles {
+  rpc GetProjectFiles (GetProjectFilesRequest) returns (GetProjectFilesResponse);
+}
+
+message GetProjectFilesRequest {
+  string path = 1;
+}
+
+message GetProjectFilesResponse {
+  message FileTree {
+    string name = 1;
+    repeated FileTree files = 2;
+    bool isDirectory = 3;
+  }
+  FileTree projectFiles = 1;
+}

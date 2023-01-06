@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "Barkditor.BusinessLogic": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5155;https://localhost:7139",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
