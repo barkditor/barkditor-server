@@ -3,14 +3,14 @@ option csharp_namespace = "BarkditorServer.BusinessLogic";
 package ProjectFiles;
 
 service ProjectFiles {
-  rpc GetProjectFiles (GetProjectFilesRequest) returns (GetProjectFilesResponse);
+  rpc OpenFolder (OpenFolderRequest) returns (OpenFolderResponse);
 }
 
-message GetProjectFilesRequest {
+message OpenFolderRequest {
   string path = 1;
 }
 
-message GetProjectFilesResponse {
+message OpenFolderResponse {
   message FileTree {
     string name = 1;
     repeated FileTree files = 2;

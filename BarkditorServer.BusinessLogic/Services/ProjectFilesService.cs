@@ -5,16 +5,16 @@ namespace BarkditorServer.BusinessLogic.Services;
 
 public class ProjectFilesService : ProjectFiles.ProjectFilesBase
 {
-    public override Task<GetProjectFilesResponse> GetProjectFiles(GetProjectFilesRequest request, ServerCallContext ctx)
+    public override Task<OpenFolderResponse> OpenFolder(OpenFolderRequest request, ServerCallContext ctx)
     {
         var rootProjectDirectoryInfo = new DirectoryInfo(request.Path);
-        var fileTree = new GetProjectFilesResponse.Types.FileTree();
+        var fileTree = new OpenFolderResponse.Types.FileTree();
 
         GetFileTree(fileTree, rootProjectDirectoryInfo);
         
         foreach(var projectFile in rootProjectDirectoryInfo.GetFiles())
         {
-            var projectFileTree = new GetProjectFilesResponse.Types.FileTree
+            var projectFileTree = new OpenFolderResponse.Types.FileTree
             {
                 Name = projectFile.Name,
                 IsDirectory = false
@@ -22,7 +22,7 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
             fileTree.Files.Add(projectFileTree);
         }
 
-        var response = new GetProjectFilesResponse
+        var response = new OpenFolderResponse
         {
             ProjectFiles = fileTree
         };
@@ -30,7 +30,7 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
         return Task.FromResult(response);
     }
 
-    private void GetFileTree(GetProjectFilesResponse.Types.FileTree fileTree, DirectoryInfo directoryInfo) 
+    private void GetFileTree(OpenFolderResponse.Types.FileTree fileTree, DirectoryInfo directoryInfo) 
     {
         foreach(var projectFolder in directoryInfo.GetDirectories()) 
         {
@@ -39,7 +39,7 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
                 continue;
             }
 
-            var projectFolderTree = new GetProjectFilesResponse.Types.FileTree
+            var projectFolderTree = new OpenFolderResponse.Types.FileTree
             {
                 Name = projectFolder.Name,
                 IsDirectory = true
@@ -49,7 +49,7 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
 
             foreach(var projectFile in projectFolder.GetFiles())
             {
-                var projectFileTree = new GetProjectFilesResponse.Types.FileTree
+                var projectFileTree = new OpenFolderResponse.Types.FileTree
                 {
                     Name = projectFile.Name,
                     IsDirectory = false
