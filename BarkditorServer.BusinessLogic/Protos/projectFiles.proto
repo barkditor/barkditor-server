@@ -1,7 +1,5 @@
 syntax = "proto3";
-
 option csharp_namespace = "BarkditorServer.BusinessLogic";
-
 package ProjectFiles;
 
 service ProjectFiles {

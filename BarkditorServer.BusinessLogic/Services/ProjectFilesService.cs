@@ -1,16 +1,17 @@
 using Grpc.Core;
-using BarkditorServer.BusinessLogic;
+using BarkditorServer.Domain.Constants;
 
 namespace BarkditorServer.BusinessLogic.Services;
 
 public class ProjectFilesService : ProjectFiles.ProjectFilesBase
 {
-
-    public override Task<GetProjectFilesResponse> GetProjectFiles(GetProjectFilesRequest request, ServerCallContext context)
+    public override Task<GetProjectFilesResponse> GetProjectFiles(GetProjectFilesRequest request, ServerCallContext ctx)
     {
         var rootProjectDirectoryInfo = new DirectoryInfo(request.Path);
         var fileTree = new GetProjectFilesResponse.Types.FileTree();
 
+        GetFileTree(fileTree, rootProjectDirectoryInfo);
+        
         foreach(var projectFile in rootProjectDirectoryInfo.GetFiles())
         {
             var projectFileTree = new GetProjectFilesResponse.Types.FileTree
@@ -20,8 +21,6 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
             };
             fileTree.Files.Add(projectFileTree);
         }
-
-        GetFileTree(fileTree, rootProjectDirectoryInfo);
 
         var response = new GetProjectFilesResponse
         {
@@ -35,6 +34,11 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
     {
         foreach(var projectFolder in directoryInfo.GetDirectories()) 
         {
+            if(DirectoriesToIgnore.IgnoreArray.Contains(projectFolder.Name))
+            {
+                continue;
+            }
+
             var projectFolderTree = new GetProjectFilesResponse.Types.FileTree
             {
                 Name = projectFolder.Name,
