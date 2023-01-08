@@ -11,10 +11,11 @@ message OpenFolderRequest {
 }
 
 message OpenFolderResponse {
-  message FileTree {
-    string name = 1;
-    repeated FileTree files = 2;
-    bool isDirectory = 3;
-  }
   FileTree projectFiles = 1;
+}
+
+message FileTree {
+  string name = 1;
+  repeated FileTree files = 2;
+  bool isDirectory = 3;
 }

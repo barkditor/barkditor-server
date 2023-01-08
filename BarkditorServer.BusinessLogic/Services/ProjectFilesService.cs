@@ -9,13 +9,13 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
     public override Task<OpenFolderResponse> OpenFolder(OpenFolderRequest request, ServerCallContext ctx)
     {
         var rootProjectDirectoryInfo = new DirectoryInfo(request.Path);
-        var fileTree = new OpenFolderResponse.Types.FileTree();
+        var fileTree = new FileTree();
 
         GetFileTree(fileTree, rootProjectDirectoryInfo);
         
         foreach(var projectFile in rootProjectDirectoryInfo.GetFiles())
         {
-            var projectFileTree = new OpenFolderResponse.Types.FileTree
+            var projectFileTree = new FileTree
             {
                 Name = projectFile.Name,
                 IsDirectory = false
@@ -33,7 +33,7 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
         return Task.FromResult(response);
     }
 
-    private void GetFileTree(OpenFolderResponse.Types.FileTree fileTree, DirectoryInfo directoryInfo) 
+    private void GetFileTree(FileTree fileTree, DirectoryInfo directoryInfo) 
     {
         foreach(var projectFolder in directoryInfo.GetDirectories()) 
         {
@@ -42,7 +42,7 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
                 continue;
             }
 
-            var projectFolderTree = new OpenFolderResponse.Types.FileTree
+            var projectFolderTree = new FileTree
             {
                 Name = projectFolder.Name,
                 IsDirectory = true
@@ -52,7 +52,7 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
 
             foreach(var projectFile in projectFolder.GetFiles())
             {
-                var projectFileTree = new OpenFolderResponse.Types.FileTree
+                var projectFileTree = new FileTree
                 {
                     Name = projectFile.Name,
                     IsDirectory = false
@@ -64,7 +64,7 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
         }
     }
 
-    private void SaveProject(OpenFolderResponse.Types.FileTree projectFileTree)
+    private void SaveProject(FileTree projectFileTree)
     {
         var jsonProjectFileTreeString = JsonSerializer.Serialize(projectFileTree);
         File.WriteAllText($"{FilePaths.ProjectFilesTreeJsonPath}", jsonProjectFileTreeString);
