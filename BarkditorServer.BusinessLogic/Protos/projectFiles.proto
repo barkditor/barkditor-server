@@ -2,10 +2,14 @@ syntax = "proto3";
 option csharp_namespace = "BarkditorServer.BusinessLogic";
 package ProjectFiles;
 
+import "google/protobuf/empty.proto";
+
 service ProjectFiles {
   rpc OpenFolder (OpenFolderRequest) returns (OpenFolderResponse);
+  rpc GetSavedProject (google.protobuf.Empty) returns (GetSavedProjectResponse);
 }
 
+// open folder
 message OpenFolderRequest {
   string path = 1;
 }
@@ -14,6 +18,13 @@ message OpenFolderResponse {
   FileTree projectFiles = 1;
 }
 
+// get saved project
+message GetSavedProjectResponse {
+  FileTree projectFiles = 1;
+  string path = 2;
+}
+
+//types
 message FileTree {
   string name = 1;
   repeated FileTree files = 2;

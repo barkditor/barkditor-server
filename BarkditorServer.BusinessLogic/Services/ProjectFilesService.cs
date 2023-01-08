@@ -1,6 +1,5 @@
 using Grpc.Core;
 using BarkditorServer.Domain.Constants;
-using System.Text.Json;
 
 namespace BarkditorServer.BusinessLogic.Services;
 
@@ -28,6 +27,34 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
         var response = new OpenFolderResponse
         {
             ProjectFiles = fileTree
+        };
+
+        return Task.FromResult(response);
+    }
+
+    public override Task<GetSavedProjectResponse> GetSavedProject(Google.Protobuf.WellKnownTypes.Empty empty, ServerCallContext ctx)
+    {
+        string jsonProjectFileTreeString = "";
+
+        try
+        {
+            jsonProjectFileTreeString = File.ReadAllText(FilePaths.ProjectFilesTreeJsonPath);
+        }
+        catch(Exception)
+        {
+            var emptyResponse = new GetSavedProjectResponse
+            {
+                ProjectFiles = null
+            };
+            return Task.FromResult(emptyResponse);
+        }
+
+        var jsonParser = Google.Protobuf.JsonParser.Default;
+        var projectFileTree = jsonParser.Parse<FileTree>(jsonProjectFileTreeString);
+
+        var response = new GetSavedProjectResponse
+        {
+            ProjectFiles = projectFileTree
         };
 
         return Task.FromResult(response);
@@ -66,7 +93,9 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
 
     private void SaveProject(FileTree projectFileTree)
     {
-        var jsonProjectFileTreeString = JsonSerializer.Serialize(projectFileTree);
-        File.WriteAllText($"{FilePaths.ProjectFilesTreeJsonPath}", jsonProjectFileTreeString);
+        var jsonFormatter = Google.Protobuf.JsonFormatter.Default; 
+        var jsonProjectFileTreeString = jsonFormatter.Format(projectFileTree);
+        
+        File.WriteAllText(FilePaths.ProjectFilesTreeJsonPath, jsonProjectFileTreeString);
     }
 }
