@@ -5,8 +5,8 @@ package ProjectFiles;
 import "google/protobuf/empty.proto";
 
 service ProjectFiles {
-  rpc OpenFolder (OpenFolderRequest) returns (OpenFolderResponse);
-  rpc GetSavedProject (google.protobuf.Empty) returns (GetSavedProjectResponse);
+  rpc OpenFolder (OpenFolderRequest) returns (FileTreeResponse);
+  rpc GetSavedProject (google.protobuf.Empty) returns (FileTreeResponse);
 }
 
 // open folder
@@ -14,14 +14,8 @@ message OpenFolderRequest {
   string path = 1;
 }
 
-message OpenFolderResponse {
-  FileTree projectFiles = 1;
-}
-
-// get saved project
-message GetSavedProjectResponse {
-  FileTree projectFiles = 1;
-  string path = 2;
+message FileTreeResponse {
+  FileTree files = 1;
 }
 
 //types

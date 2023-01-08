@@ -5,7 +5,7 @@ namespace BarkditorServer.BusinessLogic.Services;
 
 public class ProjectFilesService : ProjectFiles.ProjectFilesBase
 {
-    public override Task<OpenFolderResponse> OpenFolder(OpenFolderRequest request, ServerCallContext ctx)
+    public override Task<FileTreeResponse> OpenFolder(OpenFolderRequest request, ServerCallContext ctx)
     {
         var rootProjectDirectoryInfo = new DirectoryInfo(request.Path);
         var fileTree = new FileTree();
@@ -24,15 +24,15 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
 
         SaveProject(fileTree);
 
-        var response = new OpenFolderResponse
+        var response = new FileTreeResponse
         {
-            ProjectFiles = fileTree
+            Files = fileTree
         };
 
         return Task.FromResult(response);
     }
 
-    public override Task<GetSavedProjectResponse> GetSavedProject(Google.Protobuf.WellKnownTypes.Empty empty, ServerCallContext ctx)
+    public override Task<FileTreeResponse> GetSavedProject(Google.Protobuf.WellKnownTypes.Empty empty, ServerCallContext ctx)
     {
         string jsonProjectFileTreeString = "";
 
@@ -42,9 +42,9 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
         }
         catch(Exception)
         {
-            var emptyResponse = new GetSavedProjectResponse
+            var emptyResponse = new FileTreeResponse
             {
-                ProjectFiles = null
+                Files = null
             };
             return Task.FromResult(emptyResponse);
         }
@@ -52,9 +52,9 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
         var jsonParser = Google.Protobuf.JsonParser.Default;
         var projectFileTree = jsonParser.Parse<FileTree>(jsonProjectFileTreeString);
 
-        var response = new GetSavedProjectResponse
+        var response = new FileTreeResponse
         {
-            ProjectFiles = projectFileTree
+            Files = projectFileTree
         };
 
         return Task.FromResult(response);
