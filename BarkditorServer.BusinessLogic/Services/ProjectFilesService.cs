@@ -1,5 +1,6 @@
 using Grpc.Core;
 using BarkditorServer.Domain.Constants;
+using System.Text.Json;
 
 namespace BarkditorServer.BusinessLogic.Services;
 
@@ -21,6 +22,8 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
             };
             fileTree.Files.Add(projectFileTree);
         }
+
+        SaveProject(fileTree);
 
         var response = new OpenFolderResponse
         {
@@ -59,5 +62,11 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
 
             GetFileTree(projectFolderTree, projectFolder);
         }
-    } 
+    }
+
+    private void SaveProject(OpenFolderResponse.Types.FileTree projectFileTree)
+    {
+        var jsonProjectFileTreeString = JsonSerializer.Serialize(projectFileTree);
+        File.WriteAllText($"{FilePaths.ProjectFilesTreeJson}", jsonProjectFileTreeString);
+    }
 }
