@@ -21,6 +21,7 @@ message OpenFolderResponse {
 // get saved project
 message GetSavedProjectResponse {
   FileTree projectFiles = 1;
+  string path = 2;
 }
 
 //types

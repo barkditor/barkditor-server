@@ -1,6 +1,5 @@
 using Grpc.Core;
 using BarkditorServer.Domain.Constants;
-using System.Text.Json;
 
 namespace BarkditorServer.BusinessLogic.Services;
 
@@ -12,6 +11,16 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
         var fileTree = new FileTree();
 
         GetFileTree(fileTree, rootProjectDirectoryInfo);
+        
+        foreach(var projectFile in rootProjectDirectoryInfo.GetFiles())
+        {
+            var projectFileTree = new FileTree
+            {
+                Name = projectFile.Name,
+                IsDirectory = false
+            };
+            fileTree.Files.Add(projectFileTree);
+        }
 
         SaveProject(fileTree);
 
@@ -25,8 +34,23 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
 
     public override Task<GetSavedProjectResponse> GetSavedProject(Google.Protobuf.WellKnownTypes.Empty empty, ServerCallContext ctx)
     {
-        var jsonProjectFileTreeString = File.ReadAllText(FilePaths.ProjectFilesTreeJsonPath);
-        var projectFileTree = JsonSerializer.Deserialize<FileTree>(jsonProjectFileTreeString);
+        string jsonProjectFileTreeString = "";
+
+        try
+        {
+            jsonProjectFileTreeString = File.ReadAllText(FilePaths.ProjectFilesTreeJsonPath);
+        }
+        catch(Exception)
+        {
+            var emptyResponse = new GetSavedProjectResponse
+            {
+                ProjectFiles = null
+            };
+            return Task.FromResult(emptyResponse);
+        }
+
+        var jsonParser = Google.Protobuf.JsonParser.Default;
+        var projectFileTree = jsonParser.Parse<FileTree>(jsonProjectFileTreeString);
 
         var response = new GetSavedProjectResponse
         {
@@ -69,7 +93,9 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
 
     private void SaveProject(FileTree projectFileTree)
     {
-        var jsonProjectFileTreeString = JsonSerializer.Serialize(projectFileTree);
+        var jsonFormatter = Google.Protobuf.JsonFormatter.Default; 
+        var jsonProjectFileTreeString = jsonFormatter.Format(projectFileTree);
+        
         File.WriteAllText(FilePaths.ProjectFilesTreeJsonPath, jsonProjectFileTreeString);
     }
 }
