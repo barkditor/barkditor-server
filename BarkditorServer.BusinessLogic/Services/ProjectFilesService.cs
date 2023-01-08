@@ -67,6 +67,6 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
     private void SaveProject(OpenFolderResponse.Types.FileTree projectFileTree)
     {
         var jsonProjectFileTreeString = JsonSerializer.Serialize(projectFileTree);
-        File.WriteAllText($"{FilePaths.ProjectFilesTreeJson}", jsonProjectFileTreeString);
+        File.WriteAllText($"{FilePaths.ProjectFilesTreeJsonPath}", jsonProjectFileTreeString);
     }
 }
