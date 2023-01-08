@@ -12,22 +12,25 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
         var fileTree = new FileTree();
 
         GetFileTree(fileTree, rootProjectDirectoryInfo);
-        
-        foreach(var projectFile in rootProjectDirectoryInfo.GetFiles())
-        {
-            var projectFileTree = new FileTree
-            {
-                Name = projectFile.Name,
-                IsDirectory = false
-            };
-            fileTree.Files.Add(projectFileTree);
-        }
 
         SaveProject(fileTree);
 
         var response = new OpenFolderResponse
         {
             ProjectFiles = fileTree
+        };
+
+        return Task.FromResult(response);
+    }
+
+    public override Task<GetSavedProjectResponse> GetSavedProject(Google.Protobuf.WellKnownTypes.Empty empty, ServerCallContext ctx)
+    {
+        var jsonProjectFileTreeString = File.ReadAllText(FilePaths.ProjectFilesTreeJsonPath);
+        var projectFileTree = JsonSerializer.Deserialize<FileTree>(jsonProjectFileTreeString);
+
+        var response = new GetSavedProjectResponse
+        {
+            ProjectFiles = projectFileTree
         };
 
         return Task.FromResult(response);
@@ -67,6 +70,6 @@ public class ProjectFilesService : ProjectFiles.ProjectFilesBase
     private void SaveProject(FileTree projectFileTree)
     {
         var jsonProjectFileTreeString = JsonSerializer.Serialize(projectFileTree);
-        File.WriteAllText($"{FilePaths.ProjectFilesTreeJsonPath}", jsonProjectFileTreeString);
+        File.WriteAllText(FilePaths.ProjectFilesTreeJsonPath, jsonProjectFileTreeString);
     }
 }
