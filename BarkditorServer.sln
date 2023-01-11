@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarkditorServer.Presentatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarkditorServer.Domain", "BarkditorServer.Domain\BarkditorServer.Domain.csproj", "{5ED0F485-EFB3-4E6A-8523-69F885BE49A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarkditorServer.UnitTests", "BarkditorServer.UnitTests\BarkditorServer.UnitTests.csproj", "{A7EC8205-C0B2-47E7-828E-24CECC0477B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{5ED0F485-EFB3-4E6A-8523-69F885BE49A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5ED0F485-EFB3-4E6A-8523-69F885BE49A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5ED0F485-EFB3-4E6A-8523-69F885BE49A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7EC8205-C0B2-47E7-828E-24CECC0477B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7EC8205-C0B2-47E7-828E-24CECC0477B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7EC8205-C0B2-47E7-828E-24CECC0477B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7EC8205-C0B2-47E7-828E-24CECC0477B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
